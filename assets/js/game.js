@@ -8,6 +8,11 @@ var enemyNames = ["Roberto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+};
+
 var fight = function (enemyName) {
   while (playerHealth > 0 && enemyHealth > 0) {
     var promptFight = window.prompt(
@@ -27,7 +32,9 @@ var fight = function (enemyName) {
     }
 
     //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
-    enemyHealth = enemyHealth - playerAttack;
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+    console.log(damage);
+    enemyHealth = Math.max(0, enemyHealth - damage);
 
     if (enemyHealth <= 0) {
       window.alert(enemyName + " has died!");
@@ -38,7 +45,9 @@ var fight = function (enemyName) {
     }
 
     // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable.
-    playerHealth = playerHealth - enemyAttack;
+    damage = randomNumber(enemyAttack - 3, enemyAttack);
+    console.log(damage);
+    playerHealth = Math.max(0, playerHealth - damage);
 
     if (playerHealth <= 0) {
       window.alert("You have lost your robot in battle! Game Over!");
@@ -59,15 +68,13 @@ var startGame = function () {
     if (playerHealth > 0) {
       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
       var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
       fight(pickedEnemyName);
       if (playerHealth > 0 && i < enemyNames.length - 1) {
           var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
-
           if(storeConfirm){
             shop();
           }
-
       }
     }
   }
@@ -82,7 +89,7 @@ var shop = function() {
             if(playerMoney >= 7){
                 window.alert("Refilling player's health by 20 for 7 dollars");
                 playerHealth = playerHealth + 20;
-                playerMoney = playerMoney - 7;
+                playerMoney = Math.max(0, playerMoney - 10);
             } else {
                 window.alert("no money 4 u");
             }
@@ -92,7 +99,7 @@ var shop = function() {
             if(playerMoney >= 7){
                 window.alert("Upgrading player's attack by 6 for 7 dollars");
                 playerAttack = playerAttack + 6;
-                playerMoney = playerMoney - 7;
+                playerMoney = Math.max(0, playerMoney - 10);
             } else {
                 window.alert("u got no money");
             }
