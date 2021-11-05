@@ -158,16 +158,16 @@ var startGame = function () {
 
     for (var i = 0; i < enemyInfo.length; i++) {
         if (playerInfo.health > 0) {
-        window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-        var pickedEnemyObj = enemyInfo[i];
-        pickedEnemyObj.health = randomNumber(40, 60);
-        fight(pickedEnemyObj);
-        if (playerInfo.health > 0 && i < enemyInfo.length - 1) {
+          window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+          var pickedEnemyObj = enemyInfo[i];
+          pickedEnemyObj.health = randomNumber(40, 60);
+          fight(pickedEnemyObj);
+          if (playerInfo.health > 0 && i < enemyInfo.length - 1) {
             var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
             if(storeConfirm){
-                shop();
+              shop();
             }
-        }
+          }
         }
     }
     endGame();
@@ -196,8 +196,18 @@ var shop = function() {
 var endGame = function () {
   // if player is still alive, player wins!
   if (playerInfo.health > 0) {
-    window.alert(
-      "Great job, you've survived the game! You now have a score of " + playerInfo.money +".");
+    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money +".");
+    var highScore = localStorage.getItem("highScore");
+    if(highScore === null){
+      highScore = 0;
+    }
+    if(playerInfo.money > highScore){
+      window.alert("New high score of " + playerInfo.money);
+      localStorage.setItem("highScore", playerInfo.money);
+      localStorage.setItem("name", playerInfo.name);
+    } else {
+      window.alert("no new high score u bitch");
+    }
   } else {
     window.alert("You've lost your robot in battle.");
   }
